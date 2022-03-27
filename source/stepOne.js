@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const writeFile = require('./misc/writeFiles');
+const writeFile = require('../misc/writeFiles');
 
 const stepOne = async () => {
     

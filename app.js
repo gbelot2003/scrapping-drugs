@@ -1,5 +1,5 @@
-let stepOne = require('./stepOne');
-let stepTwo = require('./stepTwo');
+let stepOne = require('./source/stepOne');
+let stepTwo = require('./source/stepTwo');
 
 async function main(){
     try {
