@@ -27,6 +27,7 @@ const stepThree = async () => {
     let filepath = "./links/" + i + ".txt";
     await writeFile(filepath, html);
     console.log("writing list file " + title);
+    await page.waitForTimeout(3000);
   }
   await browser.close();
 };
