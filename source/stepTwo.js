@@ -3,7 +3,6 @@ const fs = require("fs");
 const readdirSync = fs.readdirSync;
 const readFiles = require("../misc/readFiles");
 const writeFile = require("../misc/writeFiles");
-let i = 0;
 
 const stepTwo = async () => {
   const arrayList = await readFiles("./downloads/masterlist.txt");
