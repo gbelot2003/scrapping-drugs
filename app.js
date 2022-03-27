@@ -1,6 +1,7 @@
 let stepOne = require('./source/stepOne');
-let stepthree = require('./source/stepThree');
 let stepTwo = require('./source/stepTwo');
+let stepthree = require('./source/stepThree');
+let stepFour = require('./source/stepFour');
 
 async function main(){
     try {
@@ -9,6 +10,7 @@ async function main(){
         await stepTwo.processList();
         await stepthree.stepthree();
         await stepthree.processList();
+        await stepFour.stepFour()
         
     } catch (err) {
         console.log(err);

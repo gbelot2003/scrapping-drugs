@@ -44,7 +44,7 @@ const processList = async () => {
   }
 
   await writeFile(filepath, bigArray);
-  console.log("Detail list created");
+  console.log("Detail list created.........");
 };
 
 exports.stepthree = stepThree;
