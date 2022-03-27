@@ -3,10 +3,12 @@ let stepTwo = require('./stepTwo');
 
 async function main(){
     try {
-        await stepOne();
-        await stepTwo();
+        await stepOne.stepOne();
+        await stepTwo.stepTwo();
 
     } catch (err) {
         console.log(err);
     }
 }
+
+main();
