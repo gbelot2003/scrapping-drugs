@@ -3,6 +3,8 @@ const writeFile = require('../misc/writeFiles');
 
 const stepOne = async () => {
     
+    console.log("starting the scanning process, please wait...");
+    
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://www.drugs.com/drug_information.html");
