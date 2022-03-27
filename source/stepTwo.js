@@ -41,7 +41,7 @@ const processList = async () => {
 
   for (let i = 0; i < tlist; i++) {
     const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
-    bigArray.push(JSON.parse(data));
+    bigArray = bigArray.concat(JSON.parse(data));
   }
 
   await writeFile(filepath, bigArray);
