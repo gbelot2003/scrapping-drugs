@@ -33,10 +33,11 @@ const stepTwo = async () => {
 const processList = async () => {
     const dir = "./list";
     const lists = await readdirSync(dir).length;
+    const tlist = lists -1;
     console.log(lists);
     let bigArray = [];
 
-    for (let i = 0; i < lists; i++) {
+    for (let i = 0; i < tlist; i++) {
         const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
         prelistArray = data.replace(/'/g, '"');
         listArray = JSON.parse(prelistArray);
