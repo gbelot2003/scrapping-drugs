@@ -4,10 +4,10 @@ let stepTwo = require('./source/stepTwo');
 
 async function main(){
     try {
-        await stepOne.stepOne();
-        await stepTwo.stepTwo();
+        //await stepOne.stepOne();
+        //await stepTwo.stepTwo();
         await stepTwo.processList();
-        await stepthree.stepthree();
+        //await stepthree.stepthree();
         
     } catch (err) {
         console.log(err);

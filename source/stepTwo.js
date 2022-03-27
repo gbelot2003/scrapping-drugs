@@ -10,9 +10,9 @@ const stepTwo = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  for(let i = 0; i < 3; i++){
+  for (let i = 0; i < 3; i++) {
     const current = arrayList[i];
-    await page.goto(current, { waitUntil: 'networkidle2' });
+    await page.goto(current, { waitUntil: "networkidle2" });
     const html = await page.evaluate(() => {
       return Array.from(document.querySelectorAll(".ddc-paging a")).map(
         x => x.href
@@ -26,30 +26,29 @@ const stepTwo = async () => {
   }
 
   await browser.close();
-  
 };
 
 const processList = async () => {
-    const dir = "./list";
-    const lists = await readdirSync(dir).length;
-    const tlist = lists -1;
-    console.log(lists);
-    let bigArray = [];
+  const dir = "./list";
+  const lists = await readdirSync(dir).length;
+  const tlist = lists - 1;
+  let bigArray = [];
+  let filepath = "./downloads/sortedlist.txt";
 
-    for (let i = 0; i < tlist; i++) {
-        const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
-        prelistArray = data.replace(/'/g, '"');
-        listArray = JSON.parse(prelistArray);
-        bigArray.push(listArray[i]);
-    }
 
-    let filepath = "./downloads/sortedlist.txt";
+  for (let i = 0; i < tlist; i++) {
+    const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
+    bigArray.push(JSON.parse(data));
+  }
 
-    await writeFile(filepath, bigArray);
-    console.log("sorted list created");
+  await writeFile(filepath, bigArray);
+  console.log("sorted list created");
+};
 
-}
+const eliminateDuplicates = async () => {
+ 
+};
 
 exports.stepTwo = stepTwo;
-exports.processList = processList
-
+exports.processList = processList;
+exports.eliminateDuplicates = eliminateDuplicates;
