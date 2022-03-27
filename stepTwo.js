@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 const readFiles = require("./misc/readFiles");
-const writeFile = require("./misc/writefiles");
+const writeFile = require("./misc/writeFiles");
 let i = 0;
 
 const stepTwo = async () => {
