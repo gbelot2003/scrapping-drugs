@@ -1,4 +1,4 @@
 /node_modules
-!downloads/*
-!links/*
-!list/*
+!downloads/.gitkeep
+!links/.gitkeep
+!list/.gitkeep

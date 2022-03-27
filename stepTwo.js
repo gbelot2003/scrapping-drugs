@@ -11,7 +11,7 @@ const stepTwo = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  for(let i = 0; i < arrayList.length; i++){
+  for(let i = 0; i < 3; i++){
     const current = arrayList[i];
     await page.goto(current, { waitUntil: 'networkidle2' });
     const html = await page.evaluate(() => {
@@ -25,7 +25,7 @@ const stepTwo = async () => {
     console.log("next list " + i);
     await page.waitForTimeout(6000);
   }
-  
+
   await browser.close();
   
 };
@@ -33,13 +33,14 @@ const stepTwo = async () => {
 const processList = async () => {
     const dir = "./list";
     const lists = await readdirSync(dir).length;
+    console.log(lists);
     let bigArray = [];
 
     for (let i = 0; i < lists; i++) {
         const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
         prelistArray = data.replace(/'/g, '"');
         listArray = JSON.parse(prelistArray);
-        bigArray = bigArray.concat(listArray)
+        bigArray.push(listArray[i]);
     }
 
     let filepath = "./downloads/sortedlist.txt";
