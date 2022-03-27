@@ -1,37 +1,54 @@
 const puppeteer = require("puppeteer");
+const fs = require("fs");
+const readdirSync = fs.readdirSync;
 const readFiles = require("./misc/readFiles");
 const writeFile = require("./misc/writeFiles");
 let i = 0;
 
 const stepTwo = async () => {
   const arrayList = await readFiles("./downloads/masterlist.txt");
-  await setTimeout(function() {
-    let current = arrayList[i];
 
-    (async (current, i) => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.goto(current);
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
 
-      const html = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll(".ddc-paging a")).map(
-          x => x.href
-        );
-      });
+  for(let i = 0; i < arrayList.length; i++){
+    const current = arrayList[i];
+    await page.goto(current, { waitUntil: 'networkidle2' });
+    const html = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll(".ddc-paging a")).map(
+        x => x.href
+      );
+    });
 
-      let filepath = "./list/" + i + ".txt";
-
-      await writeFile(filepath, html);
-      console.log("next list " + i);
-
-      await browser.close();
-    })(current, i);
-
-    i++;
-    if (i < 5) {
-      stepTwo();
-    }
-  }, 8000);
+    let filepath = "./list/" + i + ".txt";
+    await writeFile(filepath, html);
+    console.log("next list " + i);
+    await page.waitForTimeout(6000);
+  }
+  
+  await browser.close();
+  
 };
 
+const processList = async () => {
+    const dir = "./list";
+    const lists = await readdirSync(dir).length;
+    let bigArray = [];
+
+    for (let i = 0; i < lists; i++) {
+        const data = await fs.readFileSync("./list/" + i + ".txt", "utf8");
+        prelistArray = data.replace(/'/g, '"');
+        listArray = JSON.parse(prelistArray);
+        bigArray = bigArray.concat(listArray)
+    }
+
+    let filepath = "./downloads/sortedlist.txt";
+
+    await writeFile(filepath, bigArray);
+    console.log("sorted list created");
+
+}
+
 exports.stepTwo = stepTwo;
+exports.processList = processList
+
