@@ -1,8 +1,8 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const readdirSync = fs.readdirSync;
-const readFiles = require("./misc/readFiles");
-const writeFile = require("./misc/writeFiles");
+const readFiles = require("../misc/readFiles");
+const writeFile = require("../misc/writeFiles");
 let i = 0;
 
 const stepTwo = async () => {
@@ -23,7 +23,7 @@ const stepTwo = async () => {
     let filepath = "./list/" + i + ".txt";
     await writeFile(filepath, html);
     console.log("next list " + i);
-    await page.waitForTimeout(6000);
+    await page.waitForTimeout(3000);
   }
 
   await browser.close();
