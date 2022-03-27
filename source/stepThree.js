@@ -22,8 +22,10 @@ const stepThree = async () => {
       );
     });
     const stitle = await page.title();
-    let title = stitle.match(/'([^']+)'/)[1];
+    //let title = stitle.match(/'([^']+)'/)[1];
+    let title = stitle;
     console.log(title);
+
     let filepath = "./links/" + i + ".txt";
     await writeFile(filepath, html);
     console.log("writing list file " + title);

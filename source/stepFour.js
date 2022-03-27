@@ -16,34 +16,44 @@ const stepFour = async () => {
     "depending of configuration this may take a litle long, please wait......"
   );
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 20; i++) {
     const current = arrayList[i];
-    console.log(current);
     await page.goto(current, { waitUntil: "networkidle2" });
     const stitle = await page.title();
-    let title = stitle.split(" ")[0]
-    title = title.replace('/','-');
+    //let title = stitle.split(" ")[0]
+    title = stitle.replace("/", "-");
 
     const paragraph = await page.evaluate(() => {
-      const status = document.querySelector("h2#dosage");
-      const naam = document.querySelector("div.ddc-related-link");
+      if (document.querySelector("#dosage") !== null) {
+        const status = document.querySelector("#dosage");
+        const naam = document.querySelector("div.ddc-related-link");
 
-      return [...document.querySelectorAll("p")]
-        .filter(
-          p =>
-            p.compareDocumentPosition(status) &
-              Node.DOCUMENT_POSITION_PRECEDING &&
-            p.compareDocumentPosition(naam) & Node.DOCUMENT_POSITION_FOLLOWING
-        )
-        .map(p => p.innerText);
+        return [...document.querySelectorAll("p")]
+          .filter(
+            p =>
+              p.compareDocumentPosition(status) &
+                Node.DOCUMENT_POSITION_PRECEDING &&
+              p.compareDocumentPosition(naam) & Node.DOCUMENT_POSITION_FOLLOWING
+          )
+          .map(p => p.textContent);
+      } else {
+        paragraph = ["no content"];
+      }
     });
-    
+
     let filepath = "./dosages/" + title + ".txt";
-    console.log("Writing dosage "+ title );
-    await writeFile(filepath, paragraph);
-    await page.waitForTimeout(7000);
+
+    if (paragraph === null || paragraph === undefined || paragraph === "" || paragraph.length === 0) {
+      console.log("No DOM content for this entry ......");
+    } else {
+      console.log("Writing dosage " + title);
+      console.log(paragraph);
+      writeFile(filepath, paragraph);
+    }
+
+    await page.waitForTimeout(3000);
   }
-  
+
   await browser.close();
 };
 
