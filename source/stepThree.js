@@ -22,11 +22,14 @@ const stepThree = async () => {
       );
     });
     const stitle = await page.title();
-    let title = stitle.match(/'([^']+)'/)[1];
+    //let title = stitle.match(/'([^']+)'/)[1];
+    let title = stitle;
     console.log(title);
+
     let filepath = "./links/" + i + ".txt";
     await writeFile(filepath, html);
     console.log("writing list file " + title);
+    await page.waitForTimeout(3000);
   }
   await browser.close();
 };
@@ -44,7 +47,7 @@ const processList = async () => {
   }
 
   await writeFile(filepath, bigArray);
-  console.log("Detail list created");
+  console.log("Detail list created.........");
 };
 
 exports.stepthree = stepThree;
