@@ -1,21 +1,15 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+let stepOne = require('./source/stepOne');
+let stepTwo = require('./source/stepTwo');
 
-(async () => {    
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto("https://www.drugs.com", {
-        waitUntil: "networkidle2"
-    });
+async function main(){
+    try {
+        await stepOne.stepOne();
+        await stepTwo.stepTwo();
+        await stepTwo.processList();
+        
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-    //await page.screenshot({ path: "example.png" });
-    //const html = await page.$eval("html", e => e.outerHTML);
-    const html = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('.top100list a')).map(x => x.href);
-    });
-
-
-    console.log(html);
-
-    await browser.close();
-})();
+main();
