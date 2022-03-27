@@ -6,11 +6,11 @@ let stepFour = require('./source/stepFour');
 async function main(){
     try {
         await stepOne.stepOne();
-        await stepTwo.stepTwo();
+        await stepTwo.stepTwo(5);
         await stepTwo.processList();
-        await stepthree.stepthree();
+        await stepthree.stepthree(10);
         await stepthree.processList();
-        await stepFour.stepFour()
+        await stepFour.stepFour(20)
         
     } catch (err) {
         console.log(err);

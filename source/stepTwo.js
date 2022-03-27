@@ -4,16 +4,22 @@ const readdirSync = fs.readdirSync;
 const readFiles = require("../misc/readFiles");
 const writeFile = require("../misc/writeFiles");
 
-const stepTwo = async () => {
+const stepTwo = async (number = 0) => {
   console.log("Readding the masterlist file, please wait......");
-
   const arrayList = await readFiles("./downloads/masterlist.txt");
+  let counter;
+
+  if(number === 0) {
+    counter = arrayList.length;  
+  } else {
+    counter = number;
+  }
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   console.log("Starting the process of writing list files, please wait......");
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < counter; i++) {
     const current = arrayList[i];
     await page.goto(current, { waitUntil: "networkidle2" });
     const html = await page.evaluate(() => {
