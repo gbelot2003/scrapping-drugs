@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
-const writeFile = require('./misc/writefiles');
+const writeFile = require('./misc/writeFiles');
 
-const firstStep = async () => {
+const stepOne = async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://www.drugs.com/drug_information.html");
@@ -13,7 +13,8 @@ const firstStep = async () => {
     await writeFile("./downloads/masterlist.txt", html);
     console.log("masterlist created");
     await browser.close();
-  
 }
 
-module.exports = firstStep;
+stepOne();
+
+module.exports = stepOne;
