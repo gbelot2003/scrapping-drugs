@@ -13,6 +13,8 @@ const stepOne = async () => {
     await writeFile("./downloads/masterlist.txt", html);
     console.log("masterlist created");
     await browser.close();
+
+    return 'one';
 }
 
 stepOne();
