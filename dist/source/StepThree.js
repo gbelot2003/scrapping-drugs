@@ -38,7 +38,7 @@ const StepThree = () => __awaiter(void 0, void 0, void 0, function* () {
             return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(x => x.getAttribute('href'));
         });
         const stitle = yield page.title();
-        let filepath = "./links/" + i + ".txt";
+        let filepath = `./links/${i}.txt`;
         yield (0, handleFiles_1.writeFiles)(filepath, html);
         log(chalk_1.default.yellow("writing list file ") + chalk_1.default.green(stitle));
         yield page.waitForTimeout(timer);
@@ -53,7 +53,7 @@ const processSorted = () => __awaiter(void 0, void 0, void 0, function* () {
     let bigArray = [];
     let filepath = "./downloads/detailslist.txt";
     for (let i = 0; i < tlist; i++) {
-        const data = yield (0, fs_1.readFileSync)("./links/" + i + ".txt", "utf8");
+        const data = yield (0, fs_1.readFileSync)(`./links/${i}.txt`, "utf8");
         bigArray = bigArray.concat(JSON.parse(data));
     }
     yield (0, handleFiles_1.writeFiles)(filepath, bigArray);

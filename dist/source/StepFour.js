@@ -29,13 +29,14 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
     time2wait === 0 ? timer = 1000 : timer = time2wait;
     const browser = yield puppeteer_1.default.launch();
     const page = yield browser.newPage();
-    log(chalk_1.default.yellow("Starting the process of writing dosages files......"));
+    log(chalk_1.default.magenta("Starting the process of writing dosages files......"));
     log(chalk_1.default.magenta("depending of configuration this may take a litle long, please wait......"));
     for (let i = 0; i < counter; i++) {
         const current = `${baseUrl}${arrayList[i]}`;
         yield page.goto(current, { waitUntil: "networkidle2" });
         const stitle = yield page.title();
-        let title = stitle.replace("/", "-");
+        const rtitle = stitle.replace("- Drugs.com", " ");
+        let title = rtitle.replace("/", "-");
         const paragraph = yield page.evaluate(() => {
             if (document.querySelector("#dosage") !== null) {
                 const status = document.querySelector("#dosage");

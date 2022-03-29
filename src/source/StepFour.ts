@@ -1,6 +1,5 @@
 import puppeteer from 'puppeteer';
 import { writeFiles, readFiles } from '../misc/handleFiles';
-import { readdirSync, readFileSync } from 'fs'
 import chalk, { Chalk } from 'chalk';
 
 const StepFour = async () => {
@@ -22,14 +21,16 @@ const StepFour = async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    log(chalk.yellow("Starting the process of writing dosages files......"));
+    log(chalk.magenta("Starting the process of writing dosages files......"));
     log(chalk.magenta("depending of configuration this may take a litle long, please wait......"));
 
     for (let i = 0; i < counter; i++) {
         const current: string = `${baseUrl}${arrayList[i]}`;
         await page.goto(current, { waitUntil: "networkidle2" });
         const stitle: string = await page.title();
-        let title: string = stitle.replace("/", "-");
+        const rtitle: string = stitle.replace("- Drugs.com", "");
+        let title: string = rtitle.replace("/", "-");
+
 
         const paragraph = await page.evaluate(() => {
             if (document.querySelector("#dosage") !== null) {

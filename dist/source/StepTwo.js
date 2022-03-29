@@ -38,7 +38,7 @@ const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
         });
         const title = yield page.title();
-        let filepath = "./list/" + i + ".txt";
+        let filepath = `./list/${i}.txt`;
         yield (0, handleFiles_1.writeFiles)(filepath, html);
         log(chalk_1.default.yellow("writing list ") + chalk_1.default.green(title));
         yield page.waitForTimeout(timer);
@@ -53,10 +53,10 @@ const processList = () => __awaiter(void 0, void 0, void 0, function* () {
     let bigArray = [];
     let filepath = "./downloads/sortedlist.txt";
     for (let i = 0; i < tlists; i++) {
-        const data = yield (0, fs_1.readFileSync)("./list/" + i + ".txt", "utf8");
+        const data = yield (0, fs_1.readFileSync)(`./list/${i}.txt`, "utf8");
         bigArray = bigArray.concat(JSON.parse(data));
     }
     yield (0, handleFiles_1.writeFiles)(filepath, bigArray);
-    console.log(chalk_1.default.yellow("Sorted list created, ") + +chalk_1.default.cyan("going to the third step..."));
+    console.log(chalk_1.default.yellow("Sorted list created, ") + chalk_1.default.cyan("going to the third step..."));
 });
 exports.processList = processList;

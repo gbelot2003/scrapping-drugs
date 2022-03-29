@@ -35,7 +35,7 @@ const StepTwo = async () => {
 
         const title: string = await page.title();
 
-        let filepath: string = "./list/" + i + ".txt";
+        let filepath: string = `./list/${i}.txt`;
         await writeFiles(filepath, html);
         log(chalk.yellow("writing list ") + chalk.green(title));
         await page.waitForTimeout(timer);
@@ -51,12 +51,12 @@ const processList = async () => {
     let filepath: string = "./downloads/sortedlist.txt";
 
     for (let i = 0; i < tlists; i++) {
-        const data: string = await readFileSync("./list/" + i + ".txt", "utf8");
+        const data: string = await readFileSync(`./list/${i}.txt`, "utf8");
         bigArray = bigArray.concat(JSON.parse(data));
     }
 
     await writeFiles(filepath, bigArray);
-    console.log(chalk.yellow("Sorted list created, ") +  + chalk.cyan("going to the third step..."));
+    console.log(chalk.yellow("Sorted list created, ") + chalk.cyan("going to the third step..."));
 
 }
 
