@@ -1,5 +1,4 @@
 import { writeFiles, readFiles } from '../misc/handleFiles';
-import { readdirSync, readFileSync } from 'fs'
 import { PupeteerCalls } from '../misc/PupeteerCalls';
 import { ProcessList } from '../misc/ProcessList';
 import chalk, { Chalk } from 'chalk';
