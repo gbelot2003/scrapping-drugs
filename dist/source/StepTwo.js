@@ -19,10 +19,13 @@ const fs_1 = require("fs");
 const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.ST_NUMBER);
     const baseUrl = process.env["BASE_URL"];
+    const time2wait = parseInt(process.env["TIME_WAIT"]);
     console.log("Readding the masterlist file, please wait......");
     const arrayList = yield (0, handleFiles_1.readFiles)("./downloads/masterlist.txt");
     let counter;
+    let timer;
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
+    time2wait === 0 ? timer = 1000 : timer = time2wait;
     const browser = yield puppeteer_1.default.launch();
     const page = yield browser.newPage();
     console.log("Starting the process of writing list files, please wait......");
@@ -35,7 +38,7 @@ const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
         let filepath = "./list/" + i + ".txt";
         yield (0, handleFiles_1.writeFiles)(filepath, html);
         console.log("writing list number " + i);
-        yield page.waitForTimeout(3000);
+        yield page.waitForTimeout(timer);
     }
     yield browser.close();
 });

@@ -18,10 +18,13 @@ const handleFiles_1 = require("../misc/handleFiles");
 const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.SF_NUMBER);
     const baseUrl = process.env["BASE_URL"];
+    const time2wait = parseInt(process.env["TIME_WAIT"]);
     console.log("Readding the details list file, please wait......");
     const arrayList = yield (0, handleFiles_1.readFiles)("./downloads/detailslist.txt");
     let counter;
+    let timer;
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
+    time2wait === 0 ? timer = 1000 : timer = time2wait;
     const browser = yield puppeteer_1.default.launch();
     const page = yield browser.newPage();
     console.log("Starting the process of writing dosages files......");
@@ -51,7 +54,7 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
             console.log(paragraph);
             (0, handleFiles_1.writeFiles)(filepath, paragraph);
         }
-        yield page.waitForTimeout(3000);
+        yield page.waitForTimeout(timer);
     }
     yield browser.close();
 });
