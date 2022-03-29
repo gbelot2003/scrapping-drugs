@@ -31,14 +31,17 @@ const StepTwo = async () => {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(
                 x => x.getAttribute('href')
             );
-        });
-
+        }); 
+        
         const title: string = await page.title();
+        await page.waitForTimeout(timer);
+
+        
 
         let filepath: string = `./list/${i}.txt`;
         await writeFiles(filepath, html);
         log(chalk.yellow("writing list ") + chalk.green(title));
-        await page.waitForTimeout(timer);
+       
     }
     await browser.close();
 }
