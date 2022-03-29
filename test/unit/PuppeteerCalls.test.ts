@@ -1,7 +1,16 @@
 import { launch } from "puppeteer";
 import { PupeteerCalls } from "../../src/misc/Pupeteer";
-import { stubBrowser } from "./mockPuppeteer";
+import { stubBrowser } from "../../src/test/mockPuppeteer";
 
+jest.mock('puppeteer', () => ({
+	launch() {
+		return stubBrowser;
+	}
+}));
+
+beforeEach(() => {
+	jest.restoreAllMocks();
+});
 
 describe("Testing PuppeteerCalls class", () => {
     let instance: PupeteerCalls;
@@ -16,12 +25,6 @@ describe("Testing PuppeteerCalls class", () => {
         const url = await instance.getBaseUrl;
         expect(url).toBe(baseUrl);
     });
-
-    jest.mock('puppeteer', () => ({
-        launch() {
-            return stubBrowser;
-        }
-    }));
 
 });
 
