@@ -17,7 +17,9 @@ async function main() {
         const stepThree = new StepThree();
         await stepThree.execute();
 
-        await StepFour();
+        const stepFour = new StepFour();
+        await stepFour.execute();
+        
     } catch (err) {
         console.log(err);
     }
