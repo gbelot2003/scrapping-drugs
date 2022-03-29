@@ -13,13 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processSorted = exports.StepThree = void 0;
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const handleFiles_1 = require("../misc/handleFiles");
 const fs_1 = require("fs");
+const PupeteerCalls_1 = require("../misc/PupeteerCalls");
 const chalk_1 = __importDefault(require("chalk"));
 const StepThree = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.STR_NUMBER);
-    const baseUrl = process.env["BASE_URL"];
     const time2wait = parseInt(process.env["TIME_WAIT"]);
     const log = console.log;
     let counter;
@@ -28,22 +27,16 @@ const StepThree = () => __awaiter(void 0, void 0, void 0, function* () {
     const arrayList = yield (0, handleFiles_1.readFiles)("./downloads/sortedlist.txt");
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
     time2wait === 0 ? timer = 1000 : timer = time2wait;
-    const browser = yield puppeteer_1.default.launch();
-    const page = yield browser.newPage();
     log(chalk_1.default.yellow("Starting the process of writing list files, ") + chalk_1.default.blue("please wait..."));
+    const html = new PupeteerCalls_1.PupeteerCalls();
     for (let i = 0; i < counter; i++) {
-        const current = `${baseUrl}${arrayList[i]}`;
-        yield page.goto(current, { waitUntil: "networkidle2" });
-        const html = yield page.evaluate(() => {
-            return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(x => x.getAttribute('href'));
-        });
-        const stitle = yield page.title();
+        const resolve = yield html.thirdCall(arrayList[i], timer);
+        const title = resolve.title;
+        const data = resolve.html;
         let filepath = `./links/${i}.txt`;
-        yield (0, handleFiles_1.writeFiles)(filepath, html);
-        log(chalk_1.default.yellow("writing list file ") + chalk_1.default.green(stitle));
-        yield page.waitForTimeout(timer);
+        yield (0, handleFiles_1.writeFiles)(filepath, data);
+        log(chalk_1.default.yellow("writing list file ") + chalk_1.default.green(title));
     }
-    yield browser.close();
 });
 exports.StepThree = StepThree;
 const processSorted = () => __awaiter(void 0, void 0, void 0, function* () {
