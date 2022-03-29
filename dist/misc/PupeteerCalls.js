@@ -40,16 +40,21 @@ const puppeteer_1 = __importDefault(require("puppeteer"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 class PupeteerCalls {
+    getUrl() {
+        return this._baseUrl;
+    }
+    setUrl(url) {
+        return this._baseUrl = url;
+    }
     /**
      *  firstCall
      * @returns html
      */
     firstCall() {
         return __awaiter(this, void 0, void 0, function* () {
-            const initWebsite = process.env["INI_WEBSITE"];
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            yield page.goto(initWebsite);
+            yield page.goto(this.getUrl());
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
             });
@@ -65,10 +70,9 @@ class PupeteerCalls {
      */
     secundCall(url, timer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const baseUrl = process.env["BASE_URL"];
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            const current = `${baseUrl}${url}`;
+            const current = `${this.getUrl()}${url}`;
             yield page.goto(current, { waitUntil: "networkidle2" });
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
@@ -87,10 +91,9 @@ class PupeteerCalls {
      */
     thirdCall(url, timer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const baseUrl = process.env["BASE_URL"];
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            const current = `${baseUrl}${url}`;
+            const current = `${this.getUrl()}${url}`;
             yield page.goto(current, { waitUntil: "networkidle2" });
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(x => x.getAttribute('href'));
@@ -101,12 +104,17 @@ class PupeteerCalls {
             return { html, title };
         });
     }
+    /**
+     * ForthCall
+     * @param url
+     * @param timer
+     * @returns
+     */
     ForthCall(url, timer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const baseUrl = process.env["BASE_URL"];
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            const current = `${baseUrl}${url}`;
+            const current = `${this.getUrl()}${url}`;
             yield page.goto(current, { waitUntil: "networkidle2" });
             const stitle = yield page.title();
             const rtitle = stitle.replace("- Drugs.com", "");
@@ -122,6 +130,8 @@ class PupeteerCalls {
                         .map(p => p.textContent);
                 }
             });
+            yield page.waitForTimeout(timer);
+            yield browser.close();
             return { title, paragraph };
         });
     }

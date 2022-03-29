@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer';
 import { writeFiles, readFiles } from '../misc/handleFiles';
 import { readdirSync, readFileSync } from 'fs'
 import { PupeteerCalls } from '../misc/PupeteerCalls';
@@ -6,6 +5,7 @@ import chalk, { Chalk } from 'chalk';
 
 const StepThree = async () => {
     const stnumber: number = parseInt(process.env.STR_NUMBER);
+    const baseUrl: string = (process.env["BASE_URL"] as string);
     const time2wait: number = parseInt(process.env["TIME_WAIT"]);
     const log: any = console.log;
     let counter: number;
@@ -20,7 +20,8 @@ const StepThree = async () => {
 
     log(chalk.yellow("Starting the process of writing list files, ") + chalk.blue("please wait..."));
 
-    const html: any = new PupeteerCalls();
+    const html = new PupeteerCalls();
+    html.setUrl(baseUrl);
 
     for (let i = 0; i < counter; i++) {
         

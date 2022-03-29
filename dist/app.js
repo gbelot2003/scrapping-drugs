@@ -41,6 +41,7 @@ const StepFour_1 = require("./source/StepFour");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            process.setMaxListeners(0);
             yield (0, StepOne_1.SteepOne)();
             yield (0, StepTwo_1.StepTwo)();
             yield (0, StepTwo_1.processList)();

@@ -19,6 +19,7 @@ const PupeteerCalls_1 = require("../misc/PupeteerCalls");
 const chalk_1 = __importDefault(require("chalk"));
 const StepThree = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.STR_NUMBER);
+    const baseUrl = process.env["BASE_URL"];
     const time2wait = parseInt(process.env["TIME_WAIT"]);
     const log = console.log;
     let counter;
@@ -29,6 +30,7 @@ const StepThree = () => __awaiter(void 0, void 0, void 0, function* () {
     time2wait === 0 ? timer = 1000 : timer = time2wait;
     log(chalk_1.default.yellow("Starting the process of writing list files, ") + chalk_1.default.blue("please wait..."));
     const html = new PupeteerCalls_1.PupeteerCalls();
+    html.setUrl(baseUrl);
     for (let i = 0; i < counter; i++) {
         const resolve = yield html.thirdCall(arrayList[i], timer);
         const title = resolve.title;

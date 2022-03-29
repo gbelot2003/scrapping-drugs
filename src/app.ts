@@ -7,6 +7,7 @@ import { StepFour } from './source/StepFour';
 
 async function main(){
     try {
+        process.setMaxListeners(0);
         await SteepOne();
         await StepTwo();
         await processList();

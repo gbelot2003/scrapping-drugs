@@ -6,6 +6,7 @@ import chalk, { Chalk } from 'chalk';
 const StepTwo = async () => {
     const stnumber: number = parseInt(process.env.ST_NUMBER);
     const time2wait: number = parseInt(process.env["TIME_WAIT"]);
+    const baseUrl: string = (process.env["BASE_URL"] as string);
     const log: any = console.log;
     let counter: number;
     let timer: number;
@@ -19,11 +20,13 @@ const StepTwo = async () => {
 
     log(chalk.yellow("Starting the process of writing list files,") + chalk.blue(" please wait..."));
 
-    const html: any = new PupeteerCalls();
-
+    const html = new PupeteerCalls();
+    html.setUrl(baseUrl);
+    
     for (let i = 0; i < counter; i++) {
      
         const resolve: any = await html.secundCall(arrayList[i], timer);
+        
         const title: string = resolve.title;
         const data: any = resolve.html;
 

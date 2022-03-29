@@ -19,6 +19,7 @@ const chalk_1 = __importDefault(require("chalk"));
 const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.SF_NUMBER);
     const time2wait = parseInt(process.env["TIME_WAIT"]);
+    const baseUrl = process.env["BASE_URL"];
     const log = console.log;
     let counter;
     let timer;
@@ -29,6 +30,7 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
     log(chalk_1.default.magenta("Starting the process of writing dosages files......"));
     log(chalk_1.default.magenta("depending of configuration this may take a litle long, please wait......"));
     const html = new PupeteerCalls_1.PupeteerCalls();
+    html.setUrl(baseUrl);
     for (let i = 0; i < counter; i++) {
         const resolve = yield html.ForthCall(arrayList[i], timer);
         const title = resolve.title;
@@ -45,5 +47,6 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     console.log(chalk_1.default.green("Finished process ") + chalk_1.default.greenBright('OK!!'));
+    process.exit(0);
 });
 exports.StepFour = StepFour;

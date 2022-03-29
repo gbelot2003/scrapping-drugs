@@ -6,6 +6,7 @@ const StepFour = async () => {
 
     const stnumber: number = parseInt(process.env.SF_NUMBER);
     const time2wait: number = parseInt(process.env["TIME_WAIT"]);
+    const baseUrl: string = (process.env["BASE_URL"] as string);
     const log: any = console.log;
     let counter: number;
     let timer: number;
@@ -20,7 +21,8 @@ const StepFour = async () => {
     log(chalk.magenta("Starting the process of writing dosages files......"));
     log(chalk.magenta("depending of configuration this may take a litle long, please wait......"));
 
-    const html: any = new PupeteerCalls();
+    const html = new PupeteerCalls();
+    html.setUrl(baseUrl);
 
     for (let i = 0; i < counter; i++) {
         
@@ -40,6 +42,7 @@ const StepFour = async () => {
     }
 
     console.log(chalk.green("Finished process ") + chalk.greenBright('OK!!'));
+    process.exit(0);
 }
 
 export { StepFour }
