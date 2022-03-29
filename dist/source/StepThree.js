@@ -42,8 +42,13 @@ class StepThree {
                 yield (0, handleFiles_1.writeFiles)(filepath, data);
                 console.log(chalk_1.default.yellow("writing list file ") + chalk_1.default.green(title));
             }
-            const processList = new ProcessList_1.ProcessList("./links", "./downloads/detailslist.txt");
-            processList.process();
+            try {
+                const processList = new ProcessList_1.ProcessList("./links", "./downloads/detailslist.txt");
+                yield processList.process();
+            }
+            catch (error) {
+                console.log(error);
+            }
             console.log("Detail list created.........");
         });
     }

@@ -42,12 +42,13 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const stepOne = new StepOne_1.StepOne();
-            stepOne.execute();
+            yield stepOne.execute();
             const stepTwo = new StepTwo_1.StepTwo();
-            stepTwo.execute();
+            yield stepTwo.execute();
             const stepThree = new StepThree_1.StepThree();
-            stepThree.execute();
-            yield (0, StepFour_1.StepFour)();
+            yield stepThree.execute();
+            const stepFour = new StepFour_1.StepFour();
+            yield stepFour.execute();
         }
         catch (err) {
             console.log(err);
