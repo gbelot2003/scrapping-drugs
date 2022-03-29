@@ -51,6 +51,7 @@ const StepFour = async () => {
         let filepath: string = "./dosages/" + title + ".txt";
         if (paragraph === null || paragraph === undefined || paragraph.length === 0) {
             log(chalk.red("No DOM content for this entry ......"));
+            counter++;
         } else {
             log(chalk.yellow("Writing dosage " + title));
             log(paragraph);

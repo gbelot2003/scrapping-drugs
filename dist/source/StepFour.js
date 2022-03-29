@@ -35,7 +35,7 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
         const current = `${baseUrl}${arrayList[i]}`;
         yield page.goto(current, { waitUntil: "networkidle2" });
         const stitle = yield page.title();
-        const rtitle = stitle.replace("- Drugs.com", " ");
+        const rtitle = stitle.replace("- Drugs.com", "");
         let title = rtitle.replace("/", "-");
         const paragraph = yield page.evaluate(() => {
             if (document.querySelector("#dosage") !== null) {
@@ -51,6 +51,7 @@ const StepFour = () => __awaiter(void 0, void 0, void 0, function* () {
         let filepath = "./dosages/" + title + ".txt";
         if (paragraph === null || paragraph === undefined || paragraph.length === 0) {
             log(chalk_1.default.red("No DOM content for this entry ......"));
+            counter++;
         }
         else {
             log(chalk_1.default.yellow("Writing dosage " + title));
