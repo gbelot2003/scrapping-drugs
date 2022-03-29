@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from 'fs'
-import { writeFiles, readFiles } from '../misc/handleFiles';
+import { writeFiles, readFiles } from './handleFiles';
 
 export class ProcessList {
 
