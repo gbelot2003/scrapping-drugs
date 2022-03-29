@@ -37,6 +37,7 @@ dotenv.config();
 const StepOne_1 = require("./source/StepOne");
 const StepTwo_1 = require("./source/StepTwo");
 const StepThree_1 = require("./source/StepThree");
+const StepFour_1 = require("./source/StepFour");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -45,6 +46,7 @@ function main() {
             yield (0, StepTwo_1.processList)();
             yield (0, StepThree_1.StepThree)();
             yield (0, StepThree_1.processSorted)();
+            yield (0, StepFour_1.StepFour)();
         }
         catch (err) {
             console.log(err);
