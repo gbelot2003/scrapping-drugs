@@ -1,54 +1,46 @@
 import { writeFiles, readFiles } from '../misc/handleFiles';
 import { readdirSync, readFileSync } from 'fs'
 import { PupeteerCalls } from '../misc/PupeteerCalls';
+import { ProcessList } from '../misc/ProcessList';
 import chalk, { Chalk } from 'chalk';
 
-const StepThree = async () => {
-    const stnumber: number = parseInt(process.env.STR_NUMBER);
-    const baseUrl: string = (process.env["BASE_URL"] as string);
-    const time2wait: number = parseInt(process.env["TIME_WAIT"]);
-    const log: any = console.log;
-    let counter: number;
-    let timer: number;
+export class StepThree {
+    private stnumber: number = parseInt(process.env.ST_NUMBER);
+    private time2wait: number = parseInt(process.env["TIME_WAIT"]);
+    private baseUrl: string = (process.env["BASE_URL"] as string);
 
-    log(chalk.yellow("Readding the sortedlist file, ") + chalk.blue("please wait..."));
+    public async execute(): Promise<any> {
+        let counter: number;
+        let timer: number;
+        console.log(chalk.yellow("Readding the sortedlist file, ") + chalk.blue("please wait..."));
 
-    const arrayList: Array<string> = await readFiles("./downloads/sortedlist.txt");
+        const arrayList: Array<string> = await readFiles("./downloads/sortedlist.txt");
 
-    stnumber === 0 ? counter = arrayList.length : counter = stnumber;
-    time2wait === 0 ? timer = 1000 : timer = time2wait;
-
-    log(chalk.yellow("Starting the process of writing list files, ") + chalk.blue("please wait..."));
-
-    const html = new PupeteerCalls();
-    html.setUrl(baseUrl);
-
-    for (let i = 0; i < counter; i++) {
+        this.stnumber === 0 ? counter = arrayList.length : counter = this.stnumber;
+        this.time2wait === 0 ? timer = 1000 : timer = this.time2wait;
         
-        const resolve: any = await html.thirdCall(arrayList[i], timer);
-        const title: string = resolve.title;
-        const data: any = resolve.html;
+        console.log(chalk.yellow("Starting the process of writing list files, ") + chalk.blue("please wait..."));
 
-        let filepath: string = `./links/${i}.txt`;
-        await writeFiles(filepath, data);
-        log(chalk.yellow("writing list file ") + chalk.green(title));
+        const html = new PupeteerCalls();
+        html.setUrl(this.baseUrl);
+        for (let i = 0; i < counter; i++) {
+        
+            const resolve: any = await html.thirdCall(arrayList[i], timer);
+            const title: string = resolve.title;
+            const data: any = resolve.html;
+    
+            let filepath: string = `./links/${i}.txt`;
+            await writeFiles(filepath, data);
+            console.log(chalk.yellow("writing list file ") + chalk.green(title));
+        }
+
+        try {
+            const processList: any = new ProcessList("./links", "./downloads/detailslist.txt");
+            await processList.process();    
+        } catch (error) {
+            console.log(error);
+        }
+        
+        console.log("Detail list created.........");
     }
 }
-
-const processSorted = async () => {
-    const dir: string = "./links";
-    const list: number = await readdirSync(dir).length;
-    const tlist: number = list - 1;
-    let bigArray: Array<any> = [];
-    let filepath: string = "./downloads/detailslist.txt";
-
-    for (let i = 0; i < tlist; i++) {
-        const data: string = await readFileSync(`./links/${i}.txt`, "utf8");
-        bigArray = bigArray.concat(JSON.parse(data));
-    }
-
-    await writeFiles(filepath, bigArray);
-    console.log("Detail list created.........");
-}
-
-export { StepThree, processSorted }

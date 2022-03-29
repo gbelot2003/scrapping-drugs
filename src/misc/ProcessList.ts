@@ -11,7 +11,7 @@ export class ProcessList {
         this._filepath = filepath;
     }
 
-    public async process() {
+    public async process() : Promise<any>{
         const lists: number = await readdirSync(this._directory).length;
         const tlists: number = (lists - 1);
         let bigArray: Array<any> = [];

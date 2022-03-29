@@ -45,8 +45,8 @@ function main() {
             stepOne.execute();
             const stepTwo = new StepTwo_1.StepTwo();
             stepTwo.execute();
-            yield (0, StepThree_1.StepThree)();
-            yield (0, StepThree_1.processSorted)();
+            const stepThree = new StepThree_1.StepThree();
+            stepThree.execute();
             yield (0, StepFour_1.StepFour)();
         }
         catch (err) {

@@ -36,8 +36,13 @@ export class StepTwo {
             console.log(chalk.yellow("writing list ") + chalk.green(title));
         }
 
-        const processList: any = new ProcessList("./list", "./downloads/sortedlist.txt");
-        processList.process();
+        try {
+            const processList: any = new ProcessList("./list", "./downloads/sortedlist.txt");
+            await processList.process();    
+        } catch (error) {
+            console.log(error);
+        }
+        
         console.log(chalk.yellow("Sorted list created, ") + chalk.cyan("going to the third step..."));
 
     }
