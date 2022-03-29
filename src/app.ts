@@ -1,18 +1,25 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { SteepOne } from './source/StepOne';
-import { StepTwo, processList } from './source/StepTwo';
-import { StepThree, processSorted } from './source/StepThree';
+import { StepOne } from './source/StepOne';
+import { StepTwo } from './source/StepTwo';
+import { StepThree } from './source/StepThree';
 import { StepFour } from './source/StepFour';
 
-async function main(){
+async function main() {
     try {
-        await SteepOne();
-        await StepTwo();
-        await processList();
-        await StepThree();
-        await processSorted();
-        await StepFour();
+
+        const stepOne = new StepOne();
+        await stepOne.execute();
+        
+        const stepTwo = new StepTwo();
+        await stepTwo.execute();
+        
+        const stepThree = new StepThree();
+        await stepThree.execute();
+
+        const stepFour = new StepFour();
+        await stepFour.execute();
+        
     } catch (err) {
         console.log(err);
     }

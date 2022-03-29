@@ -1,23 +1,21 @@
-import puppeteer from 'puppeteer';
 import chalk, { Chalk } from 'chalk';
-import { writeFiles }  from '../misc/handleFiles';
+import { writeFiles } from '../misc/handleFiles';
+import { PupeteerCalls } from '../misc/PupeteerCalls';
 
-const SteepOne = async () => {
-    const initWebsite: string = (process.env["INI_WEBSITE"] as string);
-    const log: any = console.log;
+export class StepOne {
 
-    log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(initWebsite);
+    private url: string = (process.env["INI_WEBSITE"] as string);
 
-    const html: any = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
-    });
+    public async execute(): Promise<any> {
 
-    await writeFiles("./downloads/masterlist.txt", html);
-    log(chalk.yellow("Master list created, ") + chalk.cyan("going to the second step..."));
-    await browser.close();
+        console.log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
+        const pupet = new PupeteerCalls();
+        pupet.setUrl(this.url);
+        const html: any = await pupet.firstCall();
+        console.log(html);
+
+        await writeFiles("./downloads/masterlist.txt", html);
+        console.log(chalk.yellow("Master list created, ") + chalk.cyan("going to the second step..."));
+    }
+
 }
-
-export { SteepOne };
