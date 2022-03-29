@@ -4,9 +4,16 @@ const readFiles = require("../misc/readFiles");
 const writeFile = require("../misc/writeFiles");
 const readdirSync = fs.readdirSync;
 
-const stepThree = async () => {
+const stepThree = async (number = 0) => {
   console.log("Readding the sortedlist file, please wait......");
   const arrayList = await readFiles("./downloads/sortedlist.txt");
+  let counter;
+
+  if(number === 0) {
+    counter = arrayList.length;  
+  } else {
+    counter = number;
+  }
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
