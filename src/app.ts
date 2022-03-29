@@ -9,10 +9,10 @@ async function main(){
     try {
         await SteepOne();
         await StepTwo();
-        await processList();
-        await StepThree();
-        await processSorted();
-        await StepFour();
+        //await processList();
+        //await StepThree();
+        //await processSorted();
+        //await StepFour();
     } catch (err) {
         console.log(err);
     }
