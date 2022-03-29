@@ -2,13 +2,14 @@ import puppeteer from 'puppeteer';
 import { writeFiles, readFiles } from '../misc/handleFiles';
 import { readdirSync, readFileSync } from 'fs'
 
-const StepTwo = async () => {
-    const stnumber: number = parseInt(process.env.ST_NUMBER);
+
+const StepThree = async () => {
+    const stnumber: number = parseInt(process.env.STR_NUMBER);
     const baseUrl: string = (process.env["BASE_URL"] as string);
 
-    console.log("Readding the masterlist file, please wait......");
+    console.log("Readding the sortedlist file, please wait......");
 
-    const arrayList: Array<string> = await readFiles("./downloads/masterlist.txt");
+    const arrayList: Array<string> = await readFiles("./downloads/sortedlist.txt");
     let counter: number;
 
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
@@ -21,36 +22,35 @@ const StepTwo = async () => {
     for (let i = 0; i < counter; i++) {
         const current: string = `${baseUrl}${arrayList[i]}`;
         await page.goto(current, { waitUntil: "networkidle2" });
-
         const html = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll(".ddc-paging a")).map(
+            return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(
                 x => x.getAttribute('href')
             );
         });
 
-        let filepath: string = "./list/" + i + ".txt";
+        const stitle: string = await page.title();
+        let filepath: string = "./links/" + i + ".txt";
         await writeFiles(filepath, html);
-        console.log("writing list number " + i);
+        console.log("writing list file " + stitle);
         await page.waitForTimeout(3000);
     }
     await browser.close();
 }
 
-const processList = async () => {
-    const dir: string = "./list";
-    const lists: number = await readdirSync(dir).length;
-    const tlists: number = (lists - 1);
+const processSorted = async () => {
+    const dir: string = "./links";
+    const list: number = await readdirSync(dir).length;
+    const tlist: number = list - 1;
     let bigArray: Array<any> = [];
-    let filepath: string = "./downloads/sortedlist.txt";
+    let filepath: string = "./downloads/detailslist.txt";
 
-    for (let i = 0; i < tlists; i++) {
-        const data: string = await readFileSync("./list/" + i + ".txt", "utf8");
+    for (let i = 0; i < tlist; i++) {
+        const data: string = await readFileSync("./links/" + i + ".txt", "utf8");
         bigArray = bigArray.concat(JSON.parse(data));
     }
 
     await writeFiles(filepath, bigArray);
-    console.log("sorted list created");
-
+    console.log("Detail list created.........");
 }
 
-export { StepTwo, processList };
+export { StepThree, processSorted }

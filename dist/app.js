@@ -41,6 +41,7 @@ function main() {
         try {
             yield (0, StepOne_1.SteepOne)();
             yield (0, StepTwo_1.StepTwo)();
+            yield (0, StepTwo_1.processList)();
         }
         catch (err) {
             console.log(err);

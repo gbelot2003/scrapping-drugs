@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StepTwo = void 0;
+exports.processList = exports.StepTwo = void 0;
 const puppeteer_1 = __importDefault(require("puppeteer"));
 const handleFiles_1 = require("../misc/handleFiles");
+const fs_1 = require("fs");
 const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.ST_NUMBER);
     const baseUrl = process.env["BASE_URL"];
@@ -38,3 +39,17 @@ const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.StepTwo = StepTwo;
+const processList = () => __awaiter(void 0, void 0, void 0, function* () {
+    const dir = "./list";
+    const lists = yield (0, fs_1.readFileSync)(dir).length;
+    const tlists = lists - 1;
+    let bigArray;
+    let filepath = "./downloads/sortedlist.txt";
+    for (let i = 0; i < tlists; i++) {
+        const data = yield (0, fs_1.readFileSync)("./list/" + i + ".txt", "utf8");
+        bigArray = bigArray.concat(JSON.parse(data));
+    }
+    yield (0, handleFiles_1.writeFiles)(filepath, bigArray);
+    console.log("sorted list created");
+});
+exports.processList = processList;
