@@ -6,6 +6,7 @@ describe("Test page title and header", () => {
     const page = await browser.newPage();
     await page.goto("https://www.drugs.com", { waitUntil: "domcontentloaded" });
     const title = await page.title();
+    await browser.close();
     expect(title).toContain("Drugs.com");
   });
 });
