@@ -6,13 +6,17 @@ const StepFour = async () => {
 
     const stnumber: number = parseInt(process.env.SF_NUMBER);
     const baseUrl: string = (process.env["BASE_URL"] as string);
+    const time2wait: number = parseInt(process.env["TIME_WAIT"]);
 
     console.log("Readding the details list file, please wait......");
 
     const arrayList: Array<string> = await readFiles("./downloads/detailslist.txt");
+    
     let counter: number;
+    let timer: number;
 
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
+    time2wait === 0 ? timer = 1000 : timer = time2wait;
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -53,7 +57,7 @@ const StepFour = async () => {
             writeFiles(filepath, paragraph);
         }
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(timer);
     }
 
     await browser.close();

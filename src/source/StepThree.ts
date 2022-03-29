@@ -6,13 +6,19 @@ import { readdirSync, readFileSync } from 'fs'
 const StepThree = async () => {
     const stnumber: number = parseInt(process.env.STR_NUMBER);
     const baseUrl: string = (process.env["BASE_URL"] as string);
+    const time2wait: number = parseInt(process.env["TIME_WAIT"]);
 
     console.log("Readding the sortedlist file, please wait......");
 
     const arrayList: Array<string> = await readFiles("./downloads/sortedlist.txt");
+
     let counter: number;
+    let timer: number;
+
 
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
+    time2wait === 0 ? timer = 1000 : timer = time2wait;
+
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -32,7 +38,7 @@ const StepThree = async () => {
         let filepath: string = "./links/" + i + ".txt";
         await writeFiles(filepath, html);
         console.log("writing list file " + stitle);
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(timer);
     }
     await browser.close();
 }
