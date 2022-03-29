@@ -14,10 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SteepOne = void 0;
 const puppeteer_1 = __importDefault(require("puppeteer"));
+const chalk_1 = __importDefault(require("chalk"));
 const handleFiles_1 = require("../misc/handleFiles");
 const SteepOne = () => __awaiter(void 0, void 0, void 0, function* () {
     const initWebsite = process.env["INI_WEBSITE"];
-    console.log("starting the scanning process, please wait...");
+    const log = console.log;
+    log(chalk_1.default.yellow("Starting the scanning process,") + chalk_1.default.blue(" please wait..."));
     const browser = yield puppeteer_1.default.launch();
     const page = yield browser.newPage();
     yield page.goto(initWebsite);
@@ -25,7 +27,7 @@ const SteepOne = () => __awaiter(void 0, void 0, void 0, function* () {
         return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
     });
     yield (0, handleFiles_1.writeFiles)("./downloads/masterlist.txt", html);
-    console.log("masterlist created");
+    log(chalk_1.default.yellow("Master list created, ") + chalk_1.default.cyan("going to the second step..."));
     yield browser.close();
 });
 exports.SteepOne = SteepOne;

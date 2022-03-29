@@ -1,32 +1,36 @@
 import puppeteer from 'puppeteer';
 import { writeFiles, readFiles } from '../misc/handleFiles';
-import { readdirSync, readFileSync } from 'fs'
+import chalk, { Chalk } from 'chalk';
 
 const StepFour = async () => {
 
     const stnumber: number = parseInt(process.env.SF_NUMBER);
     const baseUrl: string = (process.env["BASE_URL"] as string);
+    const time2wait: number = parseInt(process.env["TIME_WAIT"]);
+    const log: any = console.log;
+    let counter: number;
+    let timer: number;
 
-    console.log("Readding the details list file, please wait......");
+    log(chalk.yellow("Readding the details list file, ") + chalk.blue("please wait..."));
 
     const arrayList: Array<string> = await readFiles("./downloads/detailslist.txt");
-    let counter: number;
-
+    
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
+    time2wait === 0 ? timer = 1000 : timer = time2wait;
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    console.log("Starting the process of writing dosages files......");
-    console.log(
-        "depending of configuration this may take a litle long, please wait......"
-    );
+    log(chalk.magenta("Starting the process of writing dosages files......"));
+    log(chalk.magenta("depending of configuration this may take a litle long, please wait......"));
 
     for (let i = 0; i < counter; i++) {
         const current: string = `${baseUrl}${arrayList[i]}`;
         await page.goto(current, { waitUntil: "networkidle2" });
         const stitle: string = await page.title();
-        let title: string = stitle.replace("/", "-");
+        const rtitle: string = stitle.replace("- Drugs.com", "");
+        let title: string = rtitle.replace("/", "-");
+
 
         const paragraph = await page.evaluate(() => {
             if (document.querySelector("#dosage") !== null) {
@@ -46,17 +50,19 @@ const StepFour = async () => {
 
         let filepath: string = "./dosages/" + title + ".txt";
         if (paragraph === null || paragraph === undefined || paragraph.length === 0) {
-            console.log("No DOM content for this entry ......");
+            log(chalk.red("No DOM content for this entry ......"));
+            counter++;
         } else {
-            console.log("Writing dosage " + title);
-            console.log(paragraph);
+            log(chalk.yellow("Writing dosage " + title));
+            log(paragraph);
             writeFiles(filepath, paragraph);
         }
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(timer);
     }
 
     await browser.close();
+    console.log(chalk.green("Finished process ") + chalk.greenBright('OK!!'));
 }
 
 export { StepFour }

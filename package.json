@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.1",
     "dotenv": "^16.0.0",
     "dotenv-ts": "^0.2.1",
     "env-var": "^7.1.1",
