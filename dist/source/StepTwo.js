@@ -16,28 +16,31 @@ exports.processList = exports.StepTwo = void 0;
 const puppeteer_1 = __importDefault(require("puppeteer"));
 const handleFiles_1 = require("../misc/handleFiles");
 const fs_1 = require("fs");
+const chalk_1 = __importDefault(require("chalk"));
 const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
     const stnumber = parseInt(process.env.ST_NUMBER);
     const baseUrl = process.env["BASE_URL"];
     const time2wait = parseInt(process.env["TIME_WAIT"]);
-    console.log("Readding the masterlist file, please wait......");
-    const arrayList = yield (0, handleFiles_1.readFiles)("./downloads/masterlist.txt");
+    const log = console.log;
     let counter;
     let timer;
+    log(chalk_1.default.yellow("Readding the master list file, ") + chalk_1.default.blue("please wait..."));
+    const arrayList = yield (0, handleFiles_1.readFiles)("./downloads/masterlist.txt");
     stnumber === 0 ? counter = arrayList.length : counter = stnumber;
     time2wait === 0 ? timer = 1000 : timer = time2wait;
     const browser = yield puppeteer_1.default.launch();
     const page = yield browser.newPage();
-    console.log("Starting the process of writing list files, please wait......");
+    log(chalk_1.default.yellow("Starting the process of writing list files,") + chalk_1.default.blue(" please wait..."));
     for (let i = 0; i < counter; i++) {
         const current = `${baseUrl}${arrayList[i]}`;
         yield page.goto(current, { waitUntil: "networkidle2" });
         const html = yield page.evaluate(() => {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
         });
+        const title = yield page.title();
         let filepath = "./list/" + i + ".txt";
         yield (0, handleFiles_1.writeFiles)(filepath, html);
-        console.log("writing list number " + i);
+        log(chalk_1.default.yellow("writing list ") + chalk_1.default.green(title));
         yield page.waitForTimeout(timer);
     }
     yield browser.close();
@@ -54,6 +57,6 @@ const processList = () => __awaiter(void 0, void 0, void 0, function* () {
         bigArray = bigArray.concat(JSON.parse(data));
     }
     yield (0, handleFiles_1.writeFiles)(filepath, bigArray);
-    console.log("sorted list created");
+    console.log(chalk_1.default.yellow("Sorted list created, ") + +chalk_1.default.cyan("going to the third step..."));
 });
 exports.processList = processList;

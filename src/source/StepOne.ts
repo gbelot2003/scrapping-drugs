@@ -1,10 +1,12 @@
 import puppeteer from 'puppeteer';
+import chalk, { Chalk } from 'chalk';
 import { writeFiles }  from '../misc/handleFiles';
 
 const SteepOne = async () => {
     const initWebsite: string = (process.env["INI_WEBSITE"] as string);
-    
-    console.log("starting the scanning process, please wait...");
+    const log: any = console.log;
+
+    log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(initWebsite);
@@ -14,7 +16,7 @@ const SteepOne = async () => {
     });
 
     await writeFiles("./downloads/masterlist.txt", html);
-    console.log("masterlist created");
+    log(chalk.yellow("Master list created, ") + chalk.cyan("going to the second step..."));
     await browser.close();
 }
 
