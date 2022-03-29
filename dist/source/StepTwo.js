@@ -37,13 +37,14 @@ const StepTwo = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("writing list number " + i);
         yield page.waitForTimeout(3000);
     }
+    yield browser.close();
 });
 exports.StepTwo = StepTwo;
 const processList = () => __awaiter(void 0, void 0, void 0, function* () {
     const dir = "./list";
-    const lists = yield (0, fs_1.readFileSync)(dir).length;
-    const tlists = lists - 1;
-    let bigArray;
+    const lists = yield (0, fs_1.readdirSync)(dir).length;
+    const tlists = (lists - 1);
+    let bigArray = [];
     let filepath = "./downloads/sortedlist.txt";
     for (let i = 0; i < tlists; i++) {
         const data = yield (0, fs_1.readFileSync)("./list/" + i + ".txt", "utf8");

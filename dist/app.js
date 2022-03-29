@@ -36,12 +36,15 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const StepOne_1 = require("./source/StepOne");
 const StepTwo_1 = require("./source/StepTwo");
+const StepThree_1 = require("./source/StepThree");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield (0, StepOne_1.SteepOne)();
             yield (0, StepTwo_1.StepTwo)();
             yield (0, StepTwo_1.processList)();
+            yield (0, StepThree_1.StepThree)();
+            yield (0, StepThree_1.processSorted)();
         }
         catch (err) {
             console.log(err);
