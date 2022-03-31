@@ -52,7 +52,6 @@ class PupeteerCalls {
      */
     firstCall() {
         return __awaiter(this, void 0, void 0, function* () {
-            const time2wait = parseInt(process.env["TIME_WAIT"]);
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             yield page.goto(this.getBaseUrl);
@@ -60,9 +59,23 @@ class PupeteerCalls {
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
             });
-            yield page.waitForTimeout(time2wait);
             yield browser.close();
-            return html;
+            return { html, title };
+        });
+    }
+    secondCall(url, timer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const browser = yield puppeteer_1.default.launch();
+            const page = yield browser.newPage();
+            const current = `${this.getBaseUrl}${url}`;
+            yield page.goto(current, { waitUntil: "networkidle2" });
+            const html = yield page.evaluate(() => {
+                return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
+            });
+            const title = yield page.title();
+            yield page.waitForTimeout(timer);
+            yield browser.close();
+            return { html, title };
         });
     }
 }
