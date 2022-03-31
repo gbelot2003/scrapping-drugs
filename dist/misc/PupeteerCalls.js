@@ -42,26 +42,27 @@ dotenv.config();
 class PupeteerCalls {
     constructor() {
         this._baseUrl = process.env["INI_WEBSITE"];
-        ;
     }
     get getBaseUrl() {
         return this._baseUrl;
     }
     /**
      * firstCall
-     * @returns result : Array<any>
+     * @returns html : Array<any>
      */
     firstCall() {
         return __awaiter(this, void 0, void 0, function* () {
+            const time2wait = parseInt(process.env["TIME_WAIT"]);
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             yield page.goto(this.getBaseUrl);
             const title = yield page.title();
-            const result = yield page.evaluate(() => {
+            const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
             });
+            yield page.waitForTimeout(time2wait);
             yield browser.close();
-            return { result, title };
+            return html;
         });
     }
 }
