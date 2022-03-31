@@ -1,17 +1,24 @@
-import { HandleFiles } from "../../misc/handleFiles";
+import { HandleFiles } from '../../misc/handleFiles';
+import * as fs from 'fs';
 
-
-const DIR_BASE = path.resolve(__dirname, '__fixtures__/mytestedmodule');
+console.error = jest.fn();
 
 describe('handleFiles', () => {
+    const expectedPath = `${__dirname}/testfiles/test.txt`;
 
-    it("try the firs", async () => {
-
-        const array: any = ["/alpha/ab.html", "/alpha/ac.html", "/alpha/ad.html"];
-
-        const tester = new HandleFiles();
-        
-        tester.writeFiles("./test.txt", array);
-
+    afterAll(async () => {
+        //await fs.unlinkSync(expectedPath);
     })
-})
+
+    it('writeFiels', async () => {
+        let consoleLogSpy = jest.spyOn(console, 'log');
+        const expectedPath = `${__dirname}/testfiles/test.txt`;
+        const testArray: Array<any> = ["/alpha/a.html", "/alpha/b.html"];
+        
+        const files: any = new HandleFiles();
+
+        await files.writeFiles(expectedPath, testArray);
+
+        expect(fs.existsSync(expectedPath)).toBeTruthy();
+    });
+})  
