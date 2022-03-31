@@ -1,4 +1,5 @@
-import { writeFileSync, readFileSync } from 'fs'
+import { writeFile, readFileSync } from 'fs'
+import chalk, { Chalk } from 'chalk';
 
 export class HandleFiles {
 
@@ -8,24 +9,24 @@ export class HandleFiles {
      * @param filePath 
      * @param data 
      */
-    async writeFiles (filePath: string, data: any[]) : Promise<void> {
-        await writeFileSync(filePath, JSON.stringify(data));
-        console.log('file written');
+    public async writeFiles(filePath: string, data: any[]): Promise<void> {
+        await writeFile(filePath, JSON.stringify(data), err => {
+            if (err) throw console.log(err);
+            console.log(`writed file success in ${filePath}` + chalk.cyan(" going to the next step..."));
+        });
     }
 
     /**
-     * readFiles
-     * It clear the strings from the difrent lists
-     *  
+     * 
      * @param source 
      * @returns 
      */
-    async readFiles (source: string) : Promise<any> {
+    public readFiles(source: string): Promise<any> {
         const data = readFileSync(source, "utf8");
-        data ? console.log("no data") : console.log('data found');
         const prelistArray = data.replace(/g'/, '"');
-        const listArray = await JSON.parse(prelistArray);
+        const listArray = JSON.parse(prelistArray);
         return listArray;
     }
 
+    
 }
