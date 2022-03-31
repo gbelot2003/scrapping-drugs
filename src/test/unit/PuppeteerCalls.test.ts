@@ -1,6 +1,6 @@
 import { PupeteerCalls } from "../../misc/PupeteerCalls";
 
-jest.setTimeout(10000);
+jest.setTimeout(12000);
 describe("testing firstCall", () => {
     test("that it should get baseUrl from environmernt", () => {
 
