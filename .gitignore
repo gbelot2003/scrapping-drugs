@@ -1,5 +1,4 @@
 /node_modules
-/src/test
 !downloads/.gitkeep
 !dosage/.gitkeep
 !links/.gitkeep
