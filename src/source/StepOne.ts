@@ -4,8 +4,8 @@ import { PupeteerCalls } from '../misc/PupeteerCalls';
 
 export class StepOne {
 
-    private handleFiles = new HandleFiles()
-    private pupet = new PupeteerCalls();
+    private _handleFiles = new HandleFiles()
+    private _pupet = new PupeteerCalls();
     private _storePath: string;
 
     constructor(source: string = ''){
@@ -27,12 +27,12 @@ export class StepOne {
     public async execute(): Promise<any> {
         console.log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
         
-        const request: any = await this.pupet.firstCall();
+        const request: any = await this._pupet.firstCall();
         console.log(request.html);
 
         await console.log(chalk.yellow("About to create master list"));
         console.log(this.getStorePath);
-        await this.handleFiles.writeFiles(this.getStorePath, request.html);
+        await this._handleFiles.writeFiles(this.getStorePath, request.html);
         
     }
 }
