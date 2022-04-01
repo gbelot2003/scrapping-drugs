@@ -10,9 +10,14 @@
 
 - **The third step** goes through all the lists in the previous step, writing a list with the detail of the urls of all the drugs listed above.
 
-- Lastly, **the fourth** step loops through the list generated in the third and begins to evaluate each page, looping through each p element between the **#dosage id** and the **div.ddc-related-link class** that marks the end of the section. this since the content of the elements are not enclosed in a defined class or div.
+- Lastly, **the fourth** step loops through the list generated in the third and begins to evaluate each page, looping through each **p element** between the **#dosage id** and the **div.ddc-related-link class** that marks the end of the section. this since the content of the elements are not enclosed in a defined class or div.
+
+- then, dump a file with the name of the drug and the content of **dosage section** in the dosages folder.
 
 - Also, not all pages listed contain the dosage section, so the script evaluates if the #dosage id exists, otherwise it adds a new loop to compensate for the missing page and achieve the assigned number.
+
+### important
+- It will be good if you set 2 o 3 seconds for every loop, to let the DOM is read correctly and avoid failures. 
 
 ## Install
 **Clone this github repo.**
