@@ -10,7 +10,11 @@ class App {
     private stepThree = new StepThree();
     private stepFour = new StepFour();
 
-    async start() : Promise<void> {
+    /**
+     * Start;
+     * Initialize App
+     */
+    public async start() : Promise<void> {
         try {
             await this.stepOne.execute();
             await this.stepTwo.execute();

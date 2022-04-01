@@ -14,6 +14,9 @@ export class StepFour {
         this.setSourcePath(dsource);
     }
 
+    /**
+     * getSourcePath
+     */
     private get getSourcePath(): string {
         return this._sourcePath;
     }
@@ -33,7 +36,7 @@ export class StepFour {
     }
 
     /**
-     * execute
+     * Execute
      * Method to execure the class
      */
     public async execute(): Promise<any> {

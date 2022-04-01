@@ -17,10 +17,16 @@ export class StepTwo {
         this.setSourcePath(dsource);
     }
 
+    /**
+     * getStorePath
+     */
     private get getStorePath(): string {
         return this._storePath;
     }
 
+    /**
+     * getSourcePath
+     */
     private get getSourcePath(): string {
         return this._sourcePath;
     }
@@ -54,7 +60,7 @@ export class StepTwo {
     }
 
     /**
-     * execute
+     * Execute
      * Method to execure the class
      */
     public async execute(): Promise<any> {
