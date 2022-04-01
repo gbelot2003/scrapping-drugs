@@ -15,6 +15,7 @@ export class HandleFiles {
             console.log('File writted');
         } catch (error) {
             console.log(error);
+            process.exit(0);
         }
         
         
