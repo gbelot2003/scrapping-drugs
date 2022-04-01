@@ -1,28 +1,26 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-import { StepOne } from './source/StepOne';
-import { StepTwo } from './source/StepTwo';
-import { StepThree } from './source/StepThree';
 import { StepFour } from './source/StepFour';
+import { StepOne } from './source/StepOne';
+import { StepThree } from './source/StepThree';
+import { StepTwo } from './source/StepTwo';
 
-async function main() {
-    try {
+class App {
 
-        const stepOne = new StepOne();
-        await stepOne.execute();
-        
-        const stepTwo = new StepTwo();
-        await stepTwo.execute();
-        
-        const stepThree = new StepThree();
-        await stepThree.execute();
+    private stepOne = new StepOne();
+    private stepTwo = new StepTwo();
+    private stepThree = new StepThree();
+    private stepFour = new StepFour();
 
-        const stepFour = new StepFour();
-        await stepFour.execute();
-        
-    } catch (err) {
-        console.log(err);
+    async start() : Promise<void> {
+        try {
+            await this.stepOne.execute();
+            await this.stepTwo.execute();
+            await this.stepThree.execute();        
+            await this.stepFour.execute();
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
-main();
+const main = new App();
+main.start();

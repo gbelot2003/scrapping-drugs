@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from 'fs'
-import { writeFiles, readFiles } from '../misc/handleFiles';
+import { HandleFiles } from './handleFiles';
 
 export class ProcessList {
 
@@ -12,6 +12,7 @@ export class ProcessList {
     }
 
     public async process() : Promise<any>{
+        const handle  = new HandleFiles();
         const lists: number = await readdirSync(this._directory).length;
         const tlists: number = (lists - 1);
         let bigArray: Array<any> = [];
@@ -22,7 +23,7 @@ export class ProcessList {
             bigArray = bigArray.concat(JSON.parse(data));
         }
 
-        await writeFiles(filepath, bigArray);
+        await handle.writeFiles(filepath, bigArray);
     }
 
 }

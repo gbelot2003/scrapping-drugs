@@ -1,27 +1,32 @@
+
 import puppeteer from 'puppeteer';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 export class PupeteerCalls {
 
-    private _baseUrl: string;
+    public _baseUrl: string;
 
-    public getUrl(): string {
+
+    constructor() {
+        this._baseUrl = (process.env["BASE_URL"] as string);
+    }
+
+    protected get getBaseUrl(): string {
         return this._baseUrl;
     }
 
-    public setUrl(url: string): string {
-        return this._baseUrl = url;
-    }
 
     /**
-     *  firstCall
-     * @returns html
+     * 
+     * @returns 
      */
     async firstCall(): Promise<any> {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto(this.getUrl());
+        await page.goto(`${this.getBaseUrl}/drug_information.html`);
+
+        const title: string = await page.title();
 
         const html: any = await page.evaluate(() => {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
@@ -29,21 +34,24 @@ export class PupeteerCalls {
 
         await browser.close();
 
-        return html;
+        return { html, title };
     }
 
     /**
-     * SecundCall
+     * 
      * @param url 
      * @param timer 
      * @returns 
      */
-    async secundCall(url: string, timer: number): Promise<any> {
+    async secondCall(url: string, timer: number): Promise<any> {
+
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
 
-        const current: string = `${this.getUrl()}${url}`;
+        const current: string = `${this.getBaseUrl}${url}`;
         await page.goto(current, { waitUntil: "networkidle2" });
+
+        const title: string = await page.title();
 
         const html: any = await page.evaluate(() => {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(
@@ -51,7 +59,7 @@ export class PupeteerCalls {
             );
         });
 
-        const title: string = await page.title();
+
         await page.waitForTimeout(timer);
         await browser.close();
 
@@ -59,7 +67,7 @@ export class PupeteerCalls {
     }
 
     /**
-     * ThirdCall
+     * 
      * @param url 
      * @param timer 
      * @returns 
@@ -67,7 +75,7 @@ export class PupeteerCalls {
     async thirdCall(url: string, timer: number): Promise<any> {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        const current: string = `${this.getUrl()}${url}`;
+        const current: string = `${this.getBaseUrl}${url}`;
         await page.goto(current, { waitUntil: "networkidle2" });
         const html: any = await page.evaluate(() => {
             return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(
@@ -83,15 +91,15 @@ export class PupeteerCalls {
     }
 
     /**
-     * ForthCall
-     * @param url 
-     * @param timer 
-     * @returns 
-     */
+   * ForthCall
+   * @param url 
+   * @param timer 
+   * @returns 
+   */
     async ForthCall(url: string, timer: number): Promise<any> {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        const current: string = `${this.getUrl()}${url}`;
+        const current: string = `${this.getBaseUrl}${url}`;
         await page.goto(current, { waitUntil: "networkidle2" });
 
         const stitle: string = await page.title();
@@ -113,11 +121,12 @@ export class PupeteerCalls {
                     .map(p => p.textContent);
             }
         });
-        
+
         await page.waitForTimeout(timer);
         await browser.close();
 
         return { title, paragraph };
     }
+
 
 }

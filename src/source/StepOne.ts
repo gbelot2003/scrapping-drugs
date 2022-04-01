@@ -1,21 +1,21 @@
 import chalk, { Chalk } from 'chalk';
-import { writeFiles } from '../misc/handleFiles';
+import { HandleFiles } from '../misc/handleFiles';
 import { PupeteerCalls } from '../misc/PupeteerCalls';
 
 export class StepOne {
 
-    private url: string = (process.env["INI_WEBSITE"] as string);
+    private handleFiles = new HandleFiles()
+    private pupet = new PupeteerCalls();
 
     public async execute(): Promise<any> {
 
         console.log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
-        const pupet = new PupeteerCalls();
-        pupet.setUrl(this.url);
-        const html: any = await pupet.firstCall();
-        console.log(html);
+        
+        const request: any = await this.pupet.firstCall();
+        console.log(request.html);
 
-        await writeFiles("./downloads/masterlist.txt", html);
-        console.log(chalk.yellow("Master list created, ") + chalk.cyan("going to the second step..."));
+        await console.log(chalk.yellow("About to create master list"));
+        await this.handleFiles.writeFiles("./downloads/masterlist.txt", request.html);
+        
     }
-
 }

@@ -1,18 +1,39 @@
 import { writeFileSync, readFileSync } from 'fs'
+import chalk, { Chalk } from 'chalk';
 
-/** write files */
-const writeFiles = async (filePath: string, data: any[]) => {
-    await writeFileSync(filePath, JSON.stringify(data));
-};
+export class HandleFiles {
 
-/** readFIles files */
-const readFiles = async (source: string)  => {
+    /**
+     *  writeFiles
+     *  to stringify the text coming from the html of the page
+     * @param filePath 
+     * @param data 
+     */
+    public writeFiles(filePath: string, data: any[]): void {
+        try {
+            writeFileSync(filePath, JSON.stringify(data), 'utf8');    
+            console.log('File writted');
+        } catch (error) {
+            console.log(error);
+        }
+        
+        
+    }
 
-    const data = readFileSync(source, "utf8");
-    const prelistArray = data.replace(/g'/, '"');
-    const listArray = await JSON.parse(prelistArray);
-    return listArray;
+    /**
+     * 
+     * @param source 
+     * @returns 
+     */
+    public readFiles(source: string): Promise<any> {
+        console.log(source);
+        let listArray: any = [];
+        const data = readFileSync(source, "utf8");
+        const prelistArray = data.replace(/g'/, '"');
+        console.log
+        listArray = JSON.parse(prelistArray);
+        return listArray;
+    }
+
     
 }
-
-export { writeFiles, readFiles } 
