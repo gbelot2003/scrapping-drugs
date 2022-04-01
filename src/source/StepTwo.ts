@@ -4,40 +4,89 @@ import { ProcessList } from '../misc/ProcessList';
 import chalk, { Chalk } from 'chalk';
 
 export class StepTwo {
-    private stnumber: number = parseInt(process.env.ST_NUMBER);
-    private time2wait: number = parseInt(process.env["TIME_WAIT"]);
-    private results = new PupeteerCalls();
-    private handle : any = new HandleFiles();
 
+    private _stnumber: number = parseInt(process.env.ST_NUMBER);
+    private _time2wait: number = parseInt(process.env["TIME_WAIT"]);
+    private _results = new PupeteerCalls();
+    private _handle: any = new HandleFiles();
+    private _storePath: string;
+    private _sourcePath: string;
+
+    constructor(dsource: string = '', source: string = '') {
+        this.setStorePath(source);
+        this.setSourcePath(dsource);
+    }
+
+    private get getStorePath(): string {
+        return this._storePath;
+    }
+
+    private get getSourcePath(): string {
+        return this._sourcePath;
+    }
+
+    /**
+     * setStorePath
+     * Set path for source to store list path
+     * @param source 
+     * @returns 
+     */
+    public setStorePath(source: string = ""): string {
+        if (!source) {
+            return this._storePath = "./downloads/sortedlist.txt"
+        } else {
+            return this._storePath = source;
+        }
+    }
+
+    /**
+     * setSourcePath
+     * Set path for source list to read
+     * @param source 
+     * @returns 
+     */
+    public setSourcePath(source: string = ''): string {
+        if (!source) {
+            return this._sourcePath = "./downloads/masterlist.txt"
+        } else {
+            return this._sourcePath = source;
+        }
+    }
+
+    /**
+     * execute
+     * Method to execure the class
+     */
     public async execute(): Promise<any> {
         let counter: number;
-        let timer: number; 
-        
+        let timer: number;
+
         console.log(chalk.yellow("Readding the master list file, ") + chalk.blue("please wait..."));
 
-        const arrayList: Array<string> = await this.handle.readFiles("./downloads/masterlist.txt");
+        const arrayList: Array<string> = await this._handle.readFiles(this.getSourcePath);
 
-        this.stnumber === 0 ? counter = arrayList.length : counter = this.stnumber;
-        this.time2wait === 0 ? timer = 1000 : timer = this.time2wait;
+        this._stnumber === 0 ? counter = arrayList.length : counter = this._stnumber;
+        this._time2wait === 0 ? timer = 1000 : timer = this._time2wait;
 
         console.log(chalk.yellow("Starting the process of writing list files,") + chalk.blue(" please wait..."));
 
         for (let i = 0; i < counter; i++) {
-            const resolve: any = await this.results.secondCall(arrayList[i], timer);
+            const resolve: any = await this._results.secondCall(arrayList[i], timer);
 
             const title: string = resolve.title;
             const data: any = resolve.html;
 
             let filepath: string = `./list/${i}.txt`;
-            await this.handle.writeFiles(filepath, data);
+            await this._handle.writeFiles(filepath, data);
             console.log(chalk.yellow("writing list ") + chalk.green(title));
         }
 
         try {
-            const processList: any = new ProcessList("./list", "./downloads/sortedlist.txt");
-            await processList.process();    
+            const processList: any = new ProcessList("./list", this.getStorePath);
+            await processList.process();
         } catch (error) {
             console.log(error);
+            process.exit(0);
         }
 
         console.log(chalk.yellow("Sorted list created, ") + chalk.cyan("going to the third step..."));
