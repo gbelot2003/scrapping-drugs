@@ -12,6 +12,9 @@ export class StepOne {
         this.setStorePath(source);
     }
 
+    /**
+     * getStorePath
+     */
     private get getStorePath(): string {
         return this._storePath;
     }
@@ -31,7 +34,7 @@ export class StepOne {
     }
 
     /**
-     * execute
+     * Execute
      * Method to execure the class
      */
     public async execute(): Promise<any> {
