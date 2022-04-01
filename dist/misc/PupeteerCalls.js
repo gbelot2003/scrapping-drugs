@@ -41,20 +41,20 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 class PupeteerCalls {
     constructor() {
-        this._baseUrl = process.env["INI_WEBSITE"];
+        this._baseUrl = process.env["BASE_URL"];
     }
     get getBaseUrl() {
         return this._baseUrl;
     }
     /**
-     * firstCall
-     * @returns html : Array<any>
+     *
+     * @returns
      */
     firstCall() {
         return __awaiter(this, void 0, void 0, function* () {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            yield page.goto(this.getBaseUrl);
+            yield page.goto(`${this.getBaseUrl}/drug_information.html`);
             const title = yield page.title();
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
@@ -63,19 +63,77 @@ class PupeteerCalls {
             return { html, title };
         });
     }
+    /**
+     *
+     * @param url
+     * @param timer
+     * @returns
+     */
     secondCall(url, timer) {
         return __awaiter(this, void 0, void 0, function* () {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             const current = `${this.getBaseUrl}${url}`;
             yield page.goto(current, { waitUntil: "networkidle2" });
+            const title = yield page.title();
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
+            });
+            yield page.waitForTimeout(timer);
+            yield browser.close();
+            return { html, title };
+        });
+    }
+    /**
+     *
+     * @param url
+     * @param timer
+     * @returns
+     */
+    thirdCall(url, timer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const browser = yield puppeteer_1.default.launch();
+            const page = yield browser.newPage();
+            const current = `${this.getBaseUrl}${url}`;
+            yield page.goto(current, { waitUntil: "networkidle2" });
+            const html = yield page.evaluate(() => {
+                return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(x => x.getAttribute('href'));
             });
             const title = yield page.title();
             yield page.waitForTimeout(timer);
             yield browser.close();
             return { html, title };
+        });
+    }
+    /**
+   * ForthCall
+   * @param url
+   * @param timer
+   * @returns
+   */
+    ForthCall(url, timer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const browser = yield puppeteer_1.default.launch();
+            const page = yield browser.newPage();
+            const current = `${this.getBaseUrl}${url}`;
+            yield page.goto(current, { waitUntil: "networkidle2" });
+            const stitle = yield page.title();
+            const rtitle = stitle.replace("- Drugs.com", "");
+            let title = rtitle.replace("/", "-");
+            const paragraph = yield page.evaluate(() => {
+                if (document.querySelector("#dosage") !== null) {
+                    const status = document.querySelector("#dosage");
+                    const naam = document.querySelector("div.ddc-related-link");
+                    return [...document.querySelectorAll("p")]
+                        .filter(p => p.compareDocumentPosition(status) &
+                        Node.DOCUMENT_POSITION_PRECEDING &&
+                        p.compareDocumentPosition(naam) & Node.DOCUMENT_POSITION_FOLLOWING)
+                        .map(p => p.textContent);
+                }
+            });
+            yield page.waitForTimeout(timer);
+            yield browser.close();
+            return { title, paragraph };
         });
     }
 }
