@@ -1,4 +1,4 @@
-import { writeFile, readFileSync } from 'fs'
+import { writeFileSync, readFileSync } from 'fs'
 import chalk, { Chalk } from 'chalk';
 
 export class HandleFiles {
@@ -9,11 +9,15 @@ export class HandleFiles {
      * @param filePath 
      * @param data 
      */
-    public async writeFiles(filePath: string, data: any[]): Promise<void> {
-        await writeFile(filePath, JSON.stringify(data), err => {
-            if (err) throw console.log(err);
-            console.log(`writed file success in ${filePath}` + chalk.cyan(" going to the next step..."));
-        });
+    public writeFiles(filePath: string, data: any[]): void {
+        try {
+            writeFileSync(filePath, JSON.stringify(data), 'utf8');    
+            console.log('File writted');
+        } catch (error) {
+            console.log(error);
+        }
+        
+        
     }
 
     /**
@@ -22,9 +26,12 @@ export class HandleFiles {
      * @returns 
      */
     public readFiles(source: string): Promise<any> {
+        console.log(source);
+        let listArray: any = [];
         const data = readFileSync(source, "utf8");
         const prelistArray = data.replace(/g'/, '"');
-        const listArray = JSON.parse(prelistArray);
+        console.log
+        listArray = JSON.parse(prelistArray);
         return listArray;
     }
 

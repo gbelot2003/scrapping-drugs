@@ -7,7 +7,7 @@ describe('handleFiles', () => {
     const expectedPath = `${__dirname}/testfiles/test.txt`;
 
     afterAll(async () => {
-        //await fs.unlinkSync(expectedPath);
+        await fs.unlinkSync(expectedPath);
     })
 
     it('writeFiels', async () => {
@@ -19,6 +19,8 @@ describe('handleFiles', () => {
 
         await files.writeFiles(expectedPath, testArray);
 
+        expect(consoleLogSpy.mock.calls).toEqual([["File writted"]]);
         expect(fs.existsSync(expectedPath)).toBeTruthy();
+        
     });
 })  
