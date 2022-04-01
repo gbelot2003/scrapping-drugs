@@ -9,7 +9,7 @@ export class StepThree {
     private stnumber: number = parseInt(process.env.ST_NUMBER);
     private time2wait: number = parseInt(process.env["TIME_WAIT"]);
     private results: any = new PupeteerCalls();
-    private handle : any = new HandleFiles();
+    private handle: any = new HandleFiles();
 
     public async execute(): Promise<any> {
         let counter: number;
@@ -24,14 +24,21 @@ export class StepThree {
         console.log(chalk.yellow("Starting the process of writing list files, ") + chalk.blue("please wait..."));
 
         for (let i = 0; i < counter; i++) {
-        
+
             const resolve: any = await this.results.thirdCall(arrayList[i], timer);
             const title: string = resolve.title;
             const data: any = resolve.html;
-    
+
             let filepath: string = `./links/${i}.txt`;
             await this.handle.writeFiles(filepath, data);
             console.log(chalk.yellow("writing list file ") + chalk.green(title));
+        }
+        try {
+            const processList: any = new ProcessList("./links", "./downloads/detailslist.txt");
+            await processList.process();
+            console.log(chalk.blue("Detail list created........."));
+        } catch (error) {
+            console.log(error);
         }
 
     }
