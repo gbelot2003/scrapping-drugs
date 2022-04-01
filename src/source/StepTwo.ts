@@ -25,6 +25,12 @@ export class StepTwo {
         return this._sourcePath;
     }
 
+    /**
+     * setStorePath
+     * Set path for source to store list path
+     * @param source 
+     * @returns 
+     */
     public setStorePath(source: string = ""): string {
         if (!source) {
             return this._storePath = "./downloads/sortedlist.txt"
@@ -33,14 +39,24 @@ export class StepTwo {
         }
     }
 
+    /**
+     * setSourcePath
+     * Set path for source list to read
+     * @param source 
+     * @returns 
+     */
     public setSourcePath(source: string = ''): string {
         if (!source) {
-            return this._storePath = "./downloads/masterlist.txt"
+            return this._sourcePath = "./downloads/masterlist.txt"
         } else {
-            return this._storePath = source;
+            return this._sourcePath = source;
         }
     }
 
+    /**
+     * execute
+     * Method to execure the class
+     */
     public async execute(): Promise<any> {
         let counter: number;
         let timer: number;

@@ -16,6 +16,12 @@ export class StepOne {
         return this._storePath;
     }
 
+    /**
+     * setStorePath
+     * Set path for source to store list path
+     * @param source 
+     * @returns 
+     */
     public setStorePath(source: string = ""): string {
         if (!source) {
             return this._storePath = "./downloads/masterlist.txt"
@@ -24,6 +30,10 @@ export class StepOne {
         }
     }
 
+    /**
+     * execute
+     * Method to execure the class
+     */
     public async execute(): Promise<any> {
         console.log(chalk.yellow("Starting the scanning process,") + chalk.blue(" please wait..."));
 
