@@ -4,37 +4,38 @@ import { ProcessList } from '../misc/ProcessList';
 import chalk, { Chalk } from 'chalk';
 
 export class StepTwo {
+
     private _stnumber: number = parseInt(process.env.ST_NUMBER);
     private _time2wait: number = parseInt(process.env["TIME_WAIT"]);
     private _results = new PupeteerCalls();
-    private _handle : any = new HandleFiles();
+    private _handle: any = new HandleFiles();
     private _storePath: string;
     private _sourcePath: string;
 
-    constructor(dsource: string = '', source: string = ''){
+    constructor(dsource: string = '', source: string = '') {
         this.setStorePath(source);
         this.setSourcePath(dsource);
     }
 
-    private get getStorePath() : string {
+    private get getStorePath(): string {
         return this._storePath;
     }
 
-    private get getSourcePath() : string {
+    private get getSourcePath(): string {
         return this._sourcePath;
     }
 
-    public setStorePath(source: string = "") : string {
-        if(!source){
-            return this._storePath =  "./downloads/sortedlist.txt"
+    public setStorePath(source: string = ""): string {
+        if (!source) {
+            return this._storePath = "./downloads/sortedlist.txt"
         } else {
             return this._storePath = source;
         }
     }
 
-    public setSourcePath(source: string = '') : string {
-        if(!source){
-            return this._storePath =  "./downloads/masterlist.txt"
+    public setSourcePath(source: string = ''): string {
+        if (!source) {
+            return this._storePath = "./downloads/masterlist.txt"
         } else {
             return this._storePath = source;
         }
@@ -42,8 +43,8 @@ export class StepTwo {
 
     public async execute(): Promise<any> {
         let counter: number;
-        let timer: number; 
-        
+        let timer: number;
+
         console.log(chalk.yellow("Readding the master list file, ") + chalk.blue("please wait..."));
 
         const arrayList: Array<string> = await this._handle.readFiles(this.getSourcePath);
@@ -66,9 +67,10 @@ export class StepTwo {
 
         try {
             const processList: any = new ProcessList("./list", this.getStorePath);
-            await processList.process();    
+            await processList.process();
         } catch (error) {
             console.log(error);
+            process.exit(0);
         }
 
         console.log(chalk.yellow("Sorted list created, ") + chalk.cyan("going to the third step..."));
