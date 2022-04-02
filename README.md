@@ -1,6 +1,6 @@
 # Scrapping website Drugs.com 
 ## How it works.
-#### Basically this tool use **Pupeteer** librarie, an e2e tool that works with a headless chromium version, to load the website and avoid the scrapping restriction in the website.
+#### Basically this tool use **Pupeteer** librarie, an e2e tool that works with a headless chromium version, to load the website and avoid the scrapping restriction.
 
 #### We divide the program into four main classes, called steps. 
 
