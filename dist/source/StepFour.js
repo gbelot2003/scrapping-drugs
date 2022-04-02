@@ -55,7 +55,7 @@ class StepFour {
             console.log(chalk_1.default.yellow("Readding the details list file, ") + chalk_1.default.blue("please wait..."));
             const arrayList = yield this._handle.readFiles(this.getSourcePath);
             this._stnumber === 0 ? counter = arrayList.length : counter = this._stnumber;
-            this._time2wait === 0 ? timer = 1000 : timer = this._time2wait;
+            this._time2wait === 0 ? timer = 3000 : timer = this._time2wait;
             console.log(chalk_1.default.magenta("Starting the process of writing dosages files......"));
             console.log(chalk_1.default.magenta("depending of configuration this may take a litle long, please wait......"));
             for (let i = 0; i < counter; i++) {

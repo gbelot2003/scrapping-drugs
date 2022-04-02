@@ -77,7 +77,7 @@ class StepTwo {
             console.log(chalk_1.default.yellow("Readding the master list file, ") + chalk_1.default.blue("please wait..."));
             const arrayList = yield this._handle.readFiles(this.getSourcePath);
             this._stnumber === 0 ? counter = arrayList.length : counter = this._stnumber;
-            this._time2wait === 0 ? timer = 1000 : timer = this._time2wait;
+            this._time2wait === 0 ? timer = 3000 : timer = this._time2wait;
             console.log(chalk_1.default.yellow("Starting the process of writing list files,") + chalk_1.default.blue(" please wait..."));
             for (let i = 0; i < counter; i++) {
                 const resolve = yield this._results.secondCall(arrayList[i], timer);
