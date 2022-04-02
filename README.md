@@ -27,7 +27,7 @@ copy the .example.env to .env file.
 
 `cp .example.env .env`
 
-You can change the time to wait for every page or the loop number for every step.
+Inside the .env you can change the time to wait for every page or the loop number for every step, or the wait time for all the loops.
 
 ```
 #base url
