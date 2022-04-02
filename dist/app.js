@@ -20,6 +20,10 @@ class App {
         this.stepThree = new StepThree_1.StepThree();
         this.stepFour = new StepFour_1.StepFour();
     }
+    /**
+     * Start;
+     * Initialize App
+     */
     start() {
         return __awaiter(this, void 0, void 0, function* () {
             try {

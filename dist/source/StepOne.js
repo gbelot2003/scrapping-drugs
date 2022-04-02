@@ -17,17 +17,43 @@ const chalk_1 = __importDefault(require("chalk"));
 const handleFiles_1 = require("../misc/handleFiles");
 const PupeteerCalls_1 = require("../misc/PupeteerCalls");
 class StepOne {
-    constructor() {
-        this.handleFiles = new handleFiles_1.HandleFiles();
-        this.pupet = new PupeteerCalls_1.PupeteerCalls();
+    constructor(source = '') {
+        this._handleFiles = new handleFiles_1.HandleFiles();
+        this._pupet = new PupeteerCalls_1.PupeteerCalls();
+        this.setStorePath(source);
     }
+    /**
+     * getStorePath
+     */
+    get getStorePath() {
+        return this._storePath;
+    }
+    /**
+     * setStorePath
+     * Set path for source to store list path
+     * @param source
+     * @returns
+     */
+    setStorePath(source = "") {
+        if (!source) {
+            return this._storePath = "./downloads/masterlist.txt";
+        }
+        else {
+            return this._storePath = source;
+        }
+    }
+    /**
+     * Execute
+     * Method to execure the class
+     */
     execute() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(chalk_1.default.yellow("Starting the scanning process,") + chalk_1.default.blue(" please wait..."));
-            const request = yield this.pupet.firstCall();
+            const request = yield this._pupet.firstCall();
             console.log(request.html);
             yield console.log(chalk_1.default.yellow("About to create master list"));
-            yield this.handleFiles.writeFiles("./downloads/masterlist.txt", request.html);
+            console.log(this.getStorePath);
+            yield this._handleFiles.writeFiles(this.getStorePath, request.html);
         });
     }
 }

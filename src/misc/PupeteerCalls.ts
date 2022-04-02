@@ -24,7 +24,7 @@ export class PupeteerCalls {
     async firstCall(): Promise<any> {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto(`${this.getBaseUrl}/drug_information.html`);
+        await page.goto(`${this.getBaseUrl}/drug_information.html`, { waitUntil: 'networkidle2', timeout: 60000 });
 
         const title: string = await page.title();
 
@@ -32,6 +32,7 @@ export class PupeteerCalls {
             return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
         });
 
+        await page.close();
         await browser.close();
 
         return { html, title };
@@ -49,7 +50,7 @@ export class PupeteerCalls {
         const page = await browser.newPage();
 
         const current: string = `${this.getBaseUrl}${url}`;
-        await page.goto(current, { waitUntil: "networkidle2" });
+        await page.goto(current, { waitUntil: 'networkidle2', timeout: 60000 });
 
         const title: string = await page.title();
 
@@ -61,6 +62,8 @@ export class PupeteerCalls {
 
 
         await page.waitForTimeout(timer);
+
+        await page.close();
         await browser.close();
 
         return { html, title };
@@ -76,7 +79,7 @@ export class PupeteerCalls {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         const current: string = `${this.getBaseUrl}${url}`;
-        await page.goto(current, { waitUntil: "networkidle2" });
+        await page.goto(current, { waitUntil: "networkidle2", timeout: 60000 });
         const html: any = await page.evaluate(() => {
             return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(
                 x => x.getAttribute('href')
@@ -85,6 +88,8 @@ export class PupeteerCalls {
 
         const title: string = await page.title();
         await page.waitForTimeout(timer);
+
+        await page.close();
         await browser.close();
 
         return { html, title };
@@ -100,7 +105,7 @@ export class PupeteerCalls {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         const current: string = `${this.getBaseUrl}${url}`;
-        await page.goto(current, { waitUntil: "networkidle2" });
+        await page.goto(current, { waitUntil: 'networkidle2', timeout: 60000 });
 
         const stitle: string = await page.title();
         const rtitle: string = stitle.replace("- Drugs.com", "");
@@ -123,6 +128,8 @@ export class PupeteerCalls {
         });
 
         await page.waitForTimeout(timer);
+
+        await page.close();
         await browser.close();
 
         return { title, paragraph };

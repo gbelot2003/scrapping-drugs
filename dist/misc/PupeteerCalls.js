@@ -54,11 +54,12 @@ class PupeteerCalls {
         return __awaiter(this, void 0, void 0, function* () {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
-            yield page.goto(`${this.getBaseUrl}/drug_information.html`);
+            yield page.goto(`${this.getBaseUrl}/drug_information.html`, { waitUntil: 'networkidle2', timeout: 60000 });
             const title = yield page.title();
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
             });
+            yield page.close();
             yield browser.close();
             return { html, title };
         });
@@ -74,12 +75,13 @@ class PupeteerCalls {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             const current = `${this.getBaseUrl}${url}`;
-            yield page.goto(current, { waitUntil: "networkidle2" });
+            yield page.goto(current, { waitUntil: 'networkidle2', timeout: 60000 });
             const title = yield page.title();
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-paging a")).map(x => x.getAttribute('href'));
             });
             yield page.waitForTimeout(timer);
+            yield page.close();
             yield browser.close();
             return { html, title };
         });
@@ -95,12 +97,13 @@ class PupeteerCalls {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             const current = `${this.getBaseUrl}${url}`;
-            yield page.goto(current, { waitUntil: "networkidle2" });
+            yield page.goto(current, { waitUntil: "networkidle2", timeout: 60000 });
             const html = yield page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".ddc-list-column-2 a")).map(x => x.getAttribute('href'));
             });
             const title = yield page.title();
             yield page.waitForTimeout(timer);
+            yield page.close();
             yield browser.close();
             return { html, title };
         });
@@ -116,7 +119,7 @@ class PupeteerCalls {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             const current = `${this.getBaseUrl}${url}`;
-            yield page.goto(current, { waitUntil: "networkidle2" });
+            yield page.goto(current, { waitUntil: 'networkidle2', timeout: 60000 });
             const stitle = yield page.title();
             const rtitle = stitle.replace("- Drugs.com", "");
             let title = rtitle.replace("/", "-");
@@ -132,6 +135,7 @@ class PupeteerCalls {
                 }
             });
             yield page.waitForTimeout(timer);
+            yield page.close();
             yield browser.close();
             return { title, paragraph };
         });
