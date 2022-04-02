@@ -28,6 +28,7 @@ copy the .example.env to .env file.
 `cp .example.env .env`
 
 Inside the .env you can change the time to wait for every page or the loop number for every step, or the wait time for all the loops.
+the default time is 3000 (3segs) for loop. 
 
 ```
 #base url
@@ -49,7 +50,7 @@ STR_NUMBER=2
 SF_NUMBER=10 
 
 # time to wait for every loop in the script
-TIME_WAIT=1000
+TIME_WAIT=0
 ```
 
 Then, you can initialiate the process of the script with the next command
