@@ -48,7 +48,7 @@ export class StepFour {
         const arrayList: Array<string> = await this._handle.readFiles(this.getSourcePath);
 
         this._stnumber === 0 ? counter = arrayList.length : counter = this._stnumber;
-        this._time2wait === 0 ? timer = 1000 : timer = this._time2wait;
+        this._time2wait === 0 ? timer = 3000 : timer = this._time2wait;
 
         console.log(chalk.magenta("Starting the process of writing dosages files......"));
         console.log(chalk.magenta("depending of configuration this may take a litle long, please wait......"));
